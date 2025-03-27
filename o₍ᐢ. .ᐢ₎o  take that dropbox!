@@ -1,0 +1,82 @@
+file.edit("~/.Rprofile")
+.libPaths(c('C:/Users/2022/R/win-library/4.4', .
+.libPaths(c('C:/Users/2022/R/win-library/4.4', .libPaths()))
+#meh it wasnt working.i feel R should be white, i cant see anything in black R
+
+library(data.table)
+library(SAScii)
+library(readr)
+
+###########################################################################
+# EXACT PATHS (MODIFIED TO MATCH MY PATHS CORRECTLY THIS TIME PLS GOD)
+###########################################################################
+rawdir <- "C:/Users/2022/Desktop/R data"  # base folder with both .txt and .sas
+dictdir <- "C:/Users/2022/Desktop/R data/psid_dict"  # dictionary files
+r <- "C:/Users/2022/Desktop/R data/data/PSID"  # uutput directory
+
+##################################################
+# FILE PATHS CHANGED BUT STRUCTURE SAME
+##################################################
+fn <- paste0(rawdir, "/.txt/IND2021ER.txt")      
+sas_ri <- paste0(rawdir, "/.nottxt/IND2021ER.sas") # when you said .txt was supposed to be in separate folder I assumed there must be more than 2? but theres only 2 right?
+
+##################################################
+# PROCESSING (UNCHANGED like before)
+#################################################
+x <- read.SAScii(fn, sas_ri) #?
+save(x, file = paste0(r, "/IND2021ER.rda"))
+
+
+
+##################################################
+# PATHS (FAMILY DATA)
+##################################################
+rawdir <- "C:/Users/2022/Desktop/R data"  # base folder as above
+dictdir <- "C:/Users/2022/Desktop/R data/psid_dict"  # dictionaries as above 
+r <- "C:/Users/2022/Desktop/R data/data/PSID"  # output as above 
+
+##################################################
+# FAMILY-SPECIFIC FILE PATHS
+##################################################
+fn <- paste0(rawdir, "/.txt/FAM2021ER.txt")      
+sas_ri <- paste0(rawdir, "/.nottxt/FAM2021ER.sas") 
+
+##################################################
+# PROCESSING (UNCHANGED STRUCTURE)
+##################################################
+x <- read.SAScii(fn, sas_ri)  # keeps 'x' as output object...idk what does it mean cause saving is below 
+save(x, file = paste0(r, "/FAM2021ER.rda"))  # saving
+
+
+Sys.sleep(168*60)
+
+
+##################################################
+# PATHS (ADJUSTED FOR 2019 doesnt work)
+##################################################
+rawdir <- "C:/Users/2022/Desktop/R data"  
+dictdir <- "C:/Users/2022/Desktop/R data/psid_dict"  
+r <- "C:/Users/2022/Desktop/R data/data/PSID"  
+
+##################################################
+# 2019-SPECIFIC FILE PATHS and it doents work :0
+##################################################
+fn <- paste0(rawdir, "/.txt/FAM2019ER.txt")    
+sas_ri <- paste0(rawdir, "/.nottxt/FAM2019ER.sas") 
+
+###################################################
+# PROGRESS MONITORING (it doesnt work)
+##################################################
+start_time <- Sys.time()
+cat("Starting FAM2019ER processing at:", format(start_time, "%H:%M:%S"), "\n")
+
+x <- read.SAScii(fn, sas_ri, verbose = TRUE)  # doesnt show anything 
+
+cat("Completed in", round(difftime(Sys.time(), start_time, units = "mins"), "minutes\n")
+save(x, file = paste0(r, "/FAM2019ER.rda"))
+
+##################################################
+# VERIFICATION (failed)
+##################################################
+cat("2019 Family data dimensions:", dim(x), "\n")
+file.info(paste0(r, "/FAM2019ER.rda"))$size / 1024^2  #grand
